@@ -16,6 +16,7 @@ var Item = function (content) {
 
 Item.prototype = {
   add: function () {
+    itemNumber += 1;
     var $btnElement = document.createElement("div");
     $btnElement.classList.add("btn");
     $btnElement.appendChild(this.$check);
@@ -23,12 +24,17 @@ Item.prototype = {
 
     this.$item.appendChild(this.$content);
     this.$item.appendChild($btnElement);
+    this.$item.setAttribute("key", itemNumber);
     $todoItems.appendChild(this.$item);
     this.scroll();
   },
   scroll: function () {
     this.$item.scrollIntoView({ behavior: "smooth", block: "center" });
   },
+  setLocalStorage: function () {
+    localStorage.setItem(itemNumber);
+  },
+  getLocalStorage: function () {},
   event: function () {
     this.$check.addEventListener(
       "click",
@@ -51,6 +57,16 @@ Item.prototype = {
         this.$item.remove();
       }.bind(this)
     );
+
+    $save.addEventListener("click", function () {
+      var allItems = document.querySelectorAll(".item");
+      for (var i = 0; i < allItems.length; i++) {
+        var key = allItems[i].getAttribute("key");
+        var content = allItems[i].childNodes[0].textContent;
+        var checkState = allItems[i].childNodes[1].childNodes[0].textContent;
+        localStorage.setItem(key, [content, checkState]);
+      }
+    });
   },
   render: function () {
     this.add();

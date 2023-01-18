@@ -1,10 +1,11 @@
-var Item = function (content) {
+var Item = function (content, check) {
   this.$item = document.createElement("div");
   this.$item.classList.add("item");
 
   this.$check = document.createElement("button");
   this.$check.classList.add("check");
-  this.$check.textContent = "Check";
+  this.$check.textContent = check;
+  check === "Checked" ? this.$check.classList.add("checked") : null;
 
   this.$content = document.createElement("h2");
   this.$content.textContent = content;
@@ -55,7 +56,7 @@ Item.prototype = {
     );
 
     $save.addEventListener("click", function () {
-      window.localStorage.clear();
+      localStorage.clear();
       var allItems = document.querySelectorAll(".item");
       for (var i = 0; i < allItems.length; i++) {
         var key = allItems[i].getAttribute("key");

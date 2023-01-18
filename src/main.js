@@ -16,7 +16,9 @@ function getLocalStorage() {
     var value = localStorage.getItem(key);
     var content = value.split(",")[0];
     var checkState = value.split(",")[1];
-    console.log(content, checkState);
+
+    var itemElement = new Item(content, checkState);
+    itemElement.render();
   }
   return itemNumber;
 }

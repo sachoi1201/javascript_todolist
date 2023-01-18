@@ -13,7 +13,7 @@ Input.prototype = {
         if (this.value === "") {
           return;
         }
-        var itemElement = new Item(this.value);
+        var itemElement = new Item(this.value, "Check");
         itemElement.render();
         this.value = "";
         this.focus();

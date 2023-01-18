@@ -31,10 +31,6 @@ Item.prototype = {
   scroll: function () {
     this.$item.scrollIntoView({ behavior: "smooth", block: "center" });
   },
-  setLocalStorage: function () {
-    localStorage.setItem(itemNumber);
-  },
-  getLocalStorage: function () {},
   event: function () {
     this.$check.addEventListener(
       "click",
@@ -59,13 +55,17 @@ Item.prototype = {
     );
 
     $save.addEventListener("click", function () {
+      window.localStorage.clear();
       var allItems = document.querySelectorAll(".item");
       for (var i = 0; i < allItems.length; i++) {
         var key = allItems[i].getAttribute("key");
         var content = allItems[i].childNodes[0].textContent;
         var checkState = allItems[i].childNodes[1].childNodes[0].textContent;
-        localStorage.setItem(key, [content, checkState]);
+        var arr = [];
+        arr.push(content, checkState);
+        localStorage.setItem(key, arr);
       }
+      localStorage.setItem("number", itemNumber);
     });
   },
   render: function () {

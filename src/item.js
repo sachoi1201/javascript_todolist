@@ -33,8 +33,15 @@ Item.prototype = {
     this.$check.addEventListener(
       "click",
       function () {
-        this.$check.textContent =
-          this.$check.textContent === "Check" ? "Checked" : "Check";
+        if (this.$check.textContent === "Check") {
+          this.$check.textContent = "Checked";
+          this.$check.classList.add("checked");
+          this.$content.style.opacity = "0.2";
+        } else {
+          this.$check.textContent = "Check";
+          this.$check.classList.remove("checked");
+          this.$content.style.opacity = "1";
+        }
       }.bind(this)
     );
 

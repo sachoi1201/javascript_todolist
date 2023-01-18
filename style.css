@@ -46,7 +46,17 @@ button {
   border: none;
   margin: 0 8px;
   cursor: pointer;
+  font-size: 18px;
 }
 .item {
   margin-top: 8px;
+}
+.checked {
+  background-color: skyblue;
+  font-weight: 600;
+  transition: all 300ms;
+}
+.delete:hover {
+  background-color: orangered;
+  transition: all 300ms;
 }

@@ -88,8 +88,6 @@ Item.prototype = {
         var _content = _value.split(",")[0];
         itemArray.push(_content);
       }
-      console.log(itemArray);
-      // currentItemNumber = localStorage.length;
     });
 
     $clear.addEventListener("click", function () {

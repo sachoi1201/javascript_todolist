@@ -7,7 +7,7 @@ var $clear = document.querySelector(".todo__alldelete");
 var itemNumber = getLocalStorage() || 0;
 var currentItemNumber = localStorage.length;
 var inputState = false;
-var itemArray = [];
+
 var inputElement = new Input();
 inputElement.render();
 
@@ -28,10 +28,13 @@ function getLocalStorage() {
   return itemNumber;
 }
 function filtering(value) {
-  console.log(itemArray);
+  $todoSearch.innerHTML = "";
+  $todoSearch.style.display = "block";
   for (var i = 0; i < itemArray.length; i++) {
     if (itemArray[i].includes(value)) {
-      console.log(itemArray[i]);
+      var _h2 = document.createElement("h2");
+      _h2.textContent = itemArray[i];
+      $todoSearch.appendChild(_h2);
     }
   }
 }

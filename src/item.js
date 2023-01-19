@@ -10,6 +10,10 @@ var Item = function (content, check) {
   this.$content = document.createElement("h2");
   this.$content.textContent = content;
 
+  this.$underline = document.createElement("div");
+  this.$underline.classList.add("underline");
+  this.$content.appendChild(this.$underline);
+
   this.$delete = document.createElement("button");
   this.$delete.classList.add("delete");
   this.$delete.textContent = "Delete";
@@ -27,10 +31,15 @@ Item.prototype = {
     this.$item.appendChild($btnElement);
     this.$item.setAttribute("key", itemNumber);
     $todoItems.appendChild(this.$item);
+    this.line();
     this.scroll();
   },
   scroll: function () {
     this.$item.scrollIntoView({ behavior: "smooth", block: "center" });
+  },
+  line: function () {
+    this.$underline.style.visibility =
+      this.$check.textContent === "Check" ? "hidden" : "visible";
   },
   event: function () {
     this.$check.addEventListener(
@@ -39,12 +48,13 @@ Item.prototype = {
         if (this.$check.textContent === "Check") {
           this.$check.textContent = "Checked";
           this.$check.classList.add("checked");
-          this.$content.style.opacity = "0.2";
+          // this.$content.style.opacity = "0.2";
         } else {
           this.$check.textContent = "Check";
           this.$check.classList.remove("checked");
-          this.$content.style.opacity = "1";
+          // this.$content.style.opacity = "1";
         }
+        this.line();
       }.bind(this)
     );
 
@@ -67,6 +77,26 @@ Item.prototype = {
         localStorage.setItem(key, arr);
       }
       localStorage.setItem("number", itemNumber);
+
+      itemArray.length = 0;
+      for (var j = 0; j < localStorage.length; j++) {
+        var _key = localStorage.key(j);
+        if (_key === "number") {
+          continue;
+        }
+        var _value = localStorage.getItem(_key);
+        var _content = _value.split(",")[0];
+        itemArray.push(_content);
+      }
+      console.log(itemArray);
+      // currentItemNumber = localStorage.length;
+    });
+
+    $clear.addEventListener("click", function () {
+      var Items = document.querySelectorAll(".item");
+      for (var i = 0; i < Items.length; i++) {
+        Items[i].remove();
+      }
     });
   },
   render: function () {

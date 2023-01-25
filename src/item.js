@@ -9,6 +9,7 @@ var Item = function (content, check) {
 
   this.$content = document.createElement("h2");
   this.$content.textContent = content;
+  this.$content.style.position = "relative";
 
   this.$underline = document.createElement("div");
   this.$underline.classList.add("underline");
@@ -42,9 +43,61 @@ Item.prototype = {
       this.$check.textContent === "Check" ? "hidden" : "visible";
   },
   event: function () {
-    this.$check.addEventListener(
+    this.$item.addEventListener(
       "click",
       function () {
+        if (editState) {
+          return;
+        }
+        this.$item.childNodes[1].childNodes[0].disabled = true;
+        this.$item.childNodes[1].childNodes[1].disabled = true;
+
+        editState = true;
+        var editElement = document.createElement("div");
+        editElement.classList.add("edit");
+
+        var input = document.createElement("input");
+        input.focus();
+        input.addEventListener(
+          "keydown",
+          function (event) {
+            if (event.key === "Enter") {
+              if (input.value === "") {
+                return;
+              }
+              this.$item.childNodes[0].childNodes[0].textContent = input.value;
+
+              editElement.remove();
+              editElement.remove();
+              this.$item.childNodes[1].childNodes[0].disabled = false;
+              this.$item.childNodes[1].childNodes[1].disabled = false;
+              editState = false;
+            }
+          }.bind(this)
+        );
+
+        var cancelBtn = document.createElement("button");
+        cancelBtn.textContent = "Cancel";
+        cancelBtn.addEventListener(
+          "click",
+          function (event) {
+            this.$item.childNodes[1].childNodes[0].disabled = false;
+            this.$item.childNodes[1].childNodes[1].disabled = false;
+            editState = false;
+            event.stopPropagation();
+            editElement.remove();
+          }.bind(this)
+        );
+
+        editElement.appendChild(input);
+        editElement.appendChild(cancelBtn);
+        this.$item.appendChild(editElement);
+      }.bind(this)
+    );
+
+    this.$check.addEventListener(
+      "click",
+      function (event) {
         if (this.$check.textContent === "Check") {
           this.$check.textContent = "Checked";
           this.$check.classList.add("checked");
@@ -55,6 +108,7 @@ Item.prototype = {
           // this.$content.style.opacity = "1";
         }
         this.line();
+        event.stopPropagation();
       }.bind(this)
     );
 

@@ -4,9 +4,11 @@ var $todoItems = document.querySelector(".todo__items");
 var $todoSearch = document.querySelector(".todo__search");
 var $save = document.querySelector(".save");
 var $clear = document.querySelector(".todo__alldelete");
+var $input = "";
 var itemNumber = getLocalStorage() || 0;
 var currentItemNumber = localStorage.length;
 var inputState = false;
+var editState = false;
 
 var inputElement = new Input();
 inputElement.render();
@@ -38,3 +40,14 @@ function filtering(value) {
     }
   }
 }
+
+window.addEventListener("DOMContentLoaded", function () {
+  $save.click();
+  $input = document.querySelector("input");
+});
+
+$todoSearch.addEventListener("click", function (event) {
+  $input.value = event.target.textContent;
+  filtering($input.value);
+  $input.focus();
+});
